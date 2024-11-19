@@ -1,21 +1,20 @@
 import Image from "next/image";
+import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Button } from "@/components/ui/button"
-import { Poppins } from "next/font/google"
 import { Icon } from "@iconify/react"
 
-const poppins = Poppins({
-  subsets: ['latin-ext'],
-  weight: ["500"],
-  variable: '--font-poppins',
+const calSans = localFont({
+  src: "../fonts/CalSans.woff",
+  display: "swap",
 });
 
 export default function Navbar() {
   return (
     <header className={cn(
         "flex w-full flex-col justify-between items-center px-4 py-2 gap-4 md:px-8 md:py-4 bg-transparent fixed top-0 z-50",
-        poppins.className
+        calSans.className
     )}>
       <div className="flex w-full justify-between items-center">
         <div className="flex flex-1 items-center justify-center md:flex-1">
@@ -27,7 +26,7 @@ export default function Navbar() {
               height={50}
             />
           </div>
-          <div className="fixed bottom-0 left-0 right-0 z-[12] flex flex-none flex-row gap-2  border-t-2 bg-white px-4 py-2 bg-transparent md:static md:w-auto md:gap-12 md:border-none md:shadow-none">
+          <div className="fixed bottom-0 left-0 right-0 z-[12] flex flex-none flex-row gap-2  border-t-2 px-4 py-2 bg-transparent md:static md:w-auto md:gap-12 md:border-none md:shadow-none">
             <a className="flex grow flex-col items-center justify-center px-[10px] py-1 md:p-0">Mint</a>
             <a className="flex grow flex-col items-center justify-center px-[10px] py-1 md:p-0">Auction</a>
             <a className="flex grow flex-col items-center justify-center px-[10px] py-1 md:p-0">Stats</a>

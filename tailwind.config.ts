@@ -55,8 +55,22 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		animation: {
+			gradient: 'gradient 8s linear infinite',
+		},
+		backgroundSize: {
+			'300%': '300%',
+		},
+		fontFamily: {
+			calSans: ['var(--font-calSans)'],
+		},
+		
+
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+		require("tailwindcss-animate"),
+
+	],
 } satisfies Config;
