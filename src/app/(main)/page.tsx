@@ -1,17 +1,20 @@
 import Image from "next/image";
 import localFont from "next/font/local";
 import { Input } from "@/components/ui/input";
+import { Artwork } from "@/components/cards/horizontalScrolling";
+import HorizontalScrollingCard from "@/components/cards/horizontalScrolling";
 
 const calSans = localFont({
   src: "../fonts/CalSans.woff",
   display: "swap",
 });
 
+
 export default function Home() {
   return (
-    <div>
-      <main className="w-full h-full">
-        <section className="relative w-full h-[calc(100vh-200px)]">
+    <div className="min-h-screen">
+      <main className="w-full">
+        <section className="relative min-h-[calc(100vh-200px)]">
           <Image
             src="/pic/gradient.jpg"
             alt="gradient"
@@ -19,16 +22,24 @@ export default function Home() {
             className="object-cover"
             priority
           />
-
-          <div className="absolute inset-0 bottom-[10rem] flex flex-col items-center justify-center z-20">
-            <h1 className={`${calSans.className} text-5xl text-[#131740] dark:text-white lg:text-6xl xl:text-7xl `}>
-              Discover, Collect & Sell <br/>
-              <span className=" animate-gradient">Creative NFTs</span>
-            </h1>
+          <div className="container mx-auto px-4 pt-16">
+            <div className="relative flex flex-col items-center justify-center pt-20 pb-32 z-20">
+              <h1 className={`${calSans.className} text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-center text-[#131740] dark:text-white`}>
+                Discover, Collect & Sell <br/>
+                <span className="animate-gradient">Creative NFTs</span>
+              </h1>
+              
+              <div className="w-full max-w-xl mt-12">
+                <Input 
+                  placeholder="Search by NFTs" 
+                  type="text" 
+                  inputMode="search" 
+                  className="h-14 rounded-2xl bg-white placeholder:font-calSans placeholder:text-gray-400"
+                />
+              </div>
+            </div>
           </div>
-          <div className="absolute bottom-60 w-52 flex justify-center items-center z-20">
-            <Input placeholder="Search by NFTs" type="text" inputMode="search" className="h-14 rounded-2xl bg-white placeholder:font-calSans placeholder:text-gray-400"/>
-          </div>
+          <HorizontalScrollingCard />
         </section>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center"></footer>
