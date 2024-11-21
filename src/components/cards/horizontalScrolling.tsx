@@ -1,47 +1,81 @@
+'use client'
+
+import * as React from "react";
 import Image from "next/image";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, FreeMode, Mousewheel } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/effect-creative';
+import { env } from "process";
 
 export interface Artwork {
-    id: number;
-    artist: string;
+  id: number;
+  artist: string;
+  art: string;
 }
+const METADATA_URL = process.env.NEXT_PUBLIC_IPFS_IMAGE_URL || ""
 
-const works: Artwork[] = [
-    {
-      id: 1,
-      artist: "Ornella Binni",
-    },
-    {
-      id: 2,
-      artist: "Tom Byrom",
-    },
-    {
-      id: 3,
-      artist: "Vladimir Malyavko",
-    },
-  ]
-export default function HorizontalScrollingCard() {
-    return (
-        <ScrollArea className="w-96 whitespace-nowrap rounded-md border">
-        <div className="flex w-max space-x-4 p-4">
-          {works.map((artwork) => (
-            <figure key={artwork.artist} className="shrink-0">
-              <div className="overflow-hidden rounded-none">
+const HorizontalScrollingCard = () => {
+  const [works, setWorks] = React.useState<Artwork[]>([]);
+
+  React.useEffect(() => {
+    setWorks([
+      { id: 1, artist: "John Doe 1", art: `${METADATA_URL}/1.png` },
+      { id: 2, artist: "Jane Doe 2", art: `${METADATA_URL}/2.png` },
+      { id: 3, artist: "John Doe 3", art: `${METADATA_URL}/3.png` },
+      { id: 4, artist: "Jane Doe 4", art: `${METADATA_URL}/4.png` },
+      { id: 5, artist: "Jim Doe 5", art: `${METADATA_URL}/5.png` },
+    ]);
+  }, []);
+
+  const defaultIndex = works.findIndex(work => work.id === 3);
+
+  return (
+    <div className="relative px-6 pb-6">
+      <Swiper
+        effect={'coverflow'}
+        slidesPerView="auto"
+        spaceBetween={16}
+        freeMode={true}
+        mousewheel={false}
+        modules={[FreeMode, Mousewheel, EffectCoverflow]}
+        className="w-full max-w-full px-4"
+        centeredSlides={true}
+        // centeredSlidesBounds={true}
+        initialSlide={3}
+        loop={true}
+        coverflowEffect={{
+          rotate: 30,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }}
+      >
+        {works.map((artwork) => (
+          <SwiperSlide key={artwork.id} className="max-w-fit">
+            <figure className="shrink-0 rounded-2xl">
+              <div className="overflow-hidden">
                 <Image
                   src={artwork.art}
                   alt={`Photo by ${artwork.artist}`}
-                  className="aspect-[3/4] h-fit w-fit object-cover"
-                  width={300}
-                  height={400}
+                  className="aspect-[3/4] h-[430px] w-full object-cover swiper-lazy rounded-2xl focus:pointer-events-auto"
+                  width={379}
+                  height={430}
                 />
               </div>
               <figcaption className="pt-2 text-xs text-muted-foreground">
-                Photo by{" "}
+                Photo by {artwork.id}
               </figcaption>
             </figure>
-          ))}
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
-    )
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
+  )
 }
+
+export default HorizontalScrollingCard
