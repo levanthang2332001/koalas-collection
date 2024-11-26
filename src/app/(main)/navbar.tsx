@@ -1,9 +1,12 @@
+'use client'
+import React , { useState, useEffect } from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit"
 import { Button } from "@/components/ui/button"
-import { Icon } from "@iconify/react"
+import { MdOutlineQuestionMark } from "react-icons/md";
+
 
 const calSans = localFont({
   src: "../fonts/CalSans.woff",
@@ -11,10 +14,21 @@ const calSans = localFont({
 });
 
 export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <header className={cn(
         "flex w-full flex-col justify-between items-center px-4 py-2 gap-4 md:px-8 md:py-4 bg-transparent fixed top-0 z-50",
-        calSans.className
+        calSans.className,
+        isScrolled ? 'bg-white/80 backdrop-blur-md dark:bg-black/80' : 'bg-transparent'
     )}>
       <div className="flex w-full justify-between items-center">
         <div className="flex flex-1 items-center justify-center md:flex-1">
@@ -36,7 +50,7 @@ export default function Navbar() {
         <div className="flex flex-none flex-row items-center justify-end gap-5 text-gray-600">
             <Button variant="outline" size='icon' className="rounded-full">
               <a className="text-black">
-                <Icon icon="vaadin:question" />
+                <MdOutlineQuestionMark className="text-gray-400" />
               </a>
             </Button>
             <ConnectButton 
